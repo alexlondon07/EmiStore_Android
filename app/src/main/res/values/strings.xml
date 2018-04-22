@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Emi Store App</string>
     <string name="title_activity_client">Client Activity</string>
+    <string name="validate_internet">No tiene conexión a internet</string>
+    <string name="error">Error</string>
+    <string name="loading_message">Cargando...</string>
+    <string name="option_cancel">Cancelar</string>
+    <string name="accept">Aceptar</string>
 </resources>

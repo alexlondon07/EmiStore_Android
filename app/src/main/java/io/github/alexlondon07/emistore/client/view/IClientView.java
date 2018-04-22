@@ -13,7 +13,9 @@ public interface IClientView extends IBaseView{
 
     void showClientList(ArrayList<Client> clientArrayList);
 
-    void showAlertDialog(int error, int validate_internet);
+    void showAlertDialog(int error, int message);
+
+    void showAlertDialog(int error, String message);
 
     void showAlertError(int title, int message);
 }

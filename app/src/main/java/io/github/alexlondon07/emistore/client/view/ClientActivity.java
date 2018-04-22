@@ -1,31 +1,79 @@
 package io.github.alexlondon07.emistore.client.view;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 import io.github.alexlondon07.emistore.R;
+import io.github.alexlondon07.emistore.client.adapter.ClientAdapter;
+import io.github.alexlondon07.emistore.client.model.Client;
+import io.github.alexlondon07.emistore.client.presenter.ClientPresenter;
+import io.github.alexlondon07.emistore.client.repository.ClientRepository;
+import io.github.alexlondon07.emistore.util.BaseActivity;
 
-public class ClientActivity extends AppCompatActivity {
+
+public class ClientActivity extends BaseActivity<ClientPresenter> implements IClientView {
+
+    private ListView clientList;
+    private ClientAdapter clientAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        setPresenter(new ClientPresenter(new ClientRepository()));
+        getPresenter().inject(this, getValidateInternet());
+        createProgresDialog();
+        getPresenter().getClientsPresenter();
+
+        clientList = findViewById(R.id.client_list_view);
+    }
+
+    @Override
+    public void showClientList(final ArrayList<Client> clientArrayList) {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void run() {
+                callAdapter(clientArrayList);
             }
         });
     }
 
+    private void callAdapter(ArrayList<Client> clientArrayList) {
+        clientAdapter = new ClientAdapter(this, R.id.client_list_view, clientArrayList);
+        clientList.setAdapter(clientAdapter);
+    }
+
+    @Override
+    public void showAlertDialog(final int title, final int message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getShowAlertDialog().showAlertDialog(title, message, false, R.string.accept, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        getPresenter().getClientsPresenter();
+                    }
+                }, R.string.option_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void showAlertDialog(int title, String message) {
+        showAlertDialog(title, message);
+    }
+
+    @Override
+    public void showAlertError(int title, int message) {
+
+    }
 }

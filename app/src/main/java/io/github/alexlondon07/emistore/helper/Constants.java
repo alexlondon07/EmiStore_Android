@@ -6,7 +6,8 @@ package io.github.alexlondon07.emistore.helper;
 
 public class Constants {
 
-    public final static String URL_BASE_DEVELOPMENT  = "http://localhost:8080//v1/";
+    //public final static String URL_BASE_DEVELOPMENT  = "http://localhost:8080/v1";
+    public final static String URL_BASE_DEVELOPMENT = "https://backend-api-rest.herokuapp.com/v1";
     public final static int TIME_OUT = 6;
     public final static String ITEM_COURSE = "ItemCourse";
     public static final String REQUEST_TIMEOUT_ERROR_MESSAGE = "La solicitud está tardando demasiado. Por favor inténtalo nuevamente.";
