@@ -2,6 +2,8 @@ package io.github.alexlondon07.emistore.client.view;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class ClientActivity extends BaseActivity<ClientPresenter> implements ICl
 
     private ListView clientList;
     private ClientAdapter clientAdapter;
+    private SwipeRefreshLayout swipeRefreshLayoutClients;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +32,28 @@ public class ClientActivity extends BaseActivity<ClientPresenter> implements ICl
         createProgresDialog();
         getPresenter().getClientsPresenter();
 
+        loadView();
+    }
+
+    private void loadView() {
         clientList = findViewById(R.id.client_list_view);
+        swipeRefreshLayoutClients = findViewById(R.id.activity_client_swipeRefresh);
+        swipeRefreshLayoutClients.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        swipeRefreshLayoutClients.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getPresenter().getClientsPresenter();
+                        swipeRefreshLayoutClients.setRefreshing(false);
+                    }
+                }, 5000);
+            }
+        });
     }
 
     @Override
@@ -75,5 +99,11 @@ public class ClientActivity extends BaseActivity<ClientPresenter> implements ICl
     @Override
     public void showAlertError(int title, int message) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPresenter().getClientsPresenter();
     }
 }
