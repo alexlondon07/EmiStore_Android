@@ -8,7 +8,7 @@ public class Client implements Serializable{
 
 
 	@SerializedName("ide_client")
-	private Long idClient;
+	private Long ideClient;
 
 	@SerializedName("identification")
 	private String identification;
@@ -45,11 +45,11 @@ public class Client implements Serializable{
 	}
 
 	public void setIdCliente(Long idCliente){
-		this.idClient = idCliente;
+		this.ideClient = idCliente;
 	}
 
 	public Long getIdCliente(){
-		return idClient;
+		return ideClient;
 	}
 
 	public void setCity(String city){
@@ -90,7 +90,7 @@ public class Client implements Serializable{
 			"Client{" +
 			"lastName = '" + lastName + '\'' + 
 			",identification = '" + identification + '\'' + 
-			",idCliente = '" + idClient + '\'' +
+			",ideClient = '" + ideClient + '\'' +
 			",city = '" + city + '\'' + 
 			",enable = '" + enable + '\'' + 
 			",name = '" + name + '\'' + 

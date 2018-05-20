@@ -1,9 +1,12 @@
 package io.github.alexlondon07.emistore.client.view;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.View;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ public class ClientActivity extends BaseActivity<ClientPresenter> implements ICl
     private ListView clientList;
     private ClientAdapter clientAdapter;
     private SwipeRefreshLayout swipeRefreshLayoutClients;
+    private FloatingActionButton floatingActionButtonCreateClient;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,8 @@ public class ClientActivity extends BaseActivity<ClientPresenter> implements ICl
                 }, 5000);
             }
         });
+
+        floatingActionButtonCreateClient = findViewById(R.id.fabCreateClient);
     }
 
     @Override
@@ -105,5 +111,10 @@ public class ClientActivity extends BaseActivity<ClientPresenter> implements ICl
     protected void onResume() {
         super.onResume();
         getPresenter().getClientsPresenter();
+    }
+
+    public void toGoCreateClient(View view) {
+        Intent intent = new Intent(this, ClientCreateActivity.class);
+        startActivity(intent);
     }
 }
